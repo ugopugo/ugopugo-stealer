@@ -209,4 +209,4 @@ This script is for educational purposes only. Use it at your own risk. The devel
 
 [![Star History Chart](https://api.star-history.com/svg?repos=ugopugo/ugopugo-Stealer&type=Date)](https://star-history.com/#ugopugo/ugopugo-Stealer&Date)
 <p align="center">
-  Proper credits are given. Some W4SP Stealer code was used along with custom code. ❤ </p>
+  No credits cuz i leaked it ❤️❤️ </p>
